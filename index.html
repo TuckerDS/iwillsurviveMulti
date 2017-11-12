@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/libs/jquery-3.2.1.min.js"></script>
+  <script src="js/libs/astar.js"></script>
+  <script src="js/src/levels.js"></script>
+  <script src="js/src/Zombie.js"></script>
+  <script src="js/src/Pathfinder.js"></script>
+  <script src="js/src/Board.js"></script>
+  <script src="js/src/Player.js"></script>
+  <script src="js/src/Game.js"></script>
+  <script src="js/src/Index.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+
+  <title>I Will Survive</title>
+</head>
+<body>
+  <audio id="walk" preload='auto'>
+    <source src='sounds/walk.mp3' type='audio/mpeg' />
+    <source src='sounds/walk.ogg' type='audio/ogg' />
+  </audio>
+  <audio id="iwillsurvive" preload='auto'>
+    <source src='sounds/iwillsurvive.mp3' type='audio/mpeg' />
+    <source src='sounds/iwillsurvive.ogg' type='audio/ogg' />
+  </audio>
+  <audio id="dead" preload='auto'>
+    <source src='sounds/dead.mp3' type='audio/mpeg' />
+    <source src='sounds/dead.ogg' type='audio/ogg' />
+  </audio>
+  <audio id="ace" preload='auto'>
+    <source src='sounds/ace.m4a' type='audio/mp4' />
+    <source src='sounds/ace.ogg' type='audio/ogg' />
+  </audio>
+
+  <div class="content">
+    <div id="message" class="hide">mensage</div>
+  <header>
+    <div>I WILL SURVIVE !</div>
+    <nav id="controls">
+      <select name="levelSelector" id="levelSelector">
+        <option value="0">Level 1</option>
+        <option value="1">Level 2</option>
+        <option value="2">Level 3</option>
+        <option value="3">Level 4</option>
+        <option value="4">Level 5</option>
+      </select>
+      <span id="nPlayers">1 PLAYER</span>
+      <button type="button" id="start" name="start">Start</button>
+      <span id="time">0 SEC</span>
+    </nav>
+  </header>
+  <div id="board">
+      <div id="instructions">
+      <h2>INSTRUCTIONS</h2>
+      <ul>
+        <li>Press key 1 or 2 for one or two players</li>
+        <li>Player 1 move: Cursors</li>
+        <li>Player 2 move: (W A S D) keys</li>
+        <li>Press button "Start" to run!!</li>
+      </ul>
+      <br>
+      <p>You must survive the horde of zombies that will appear.</p>
+      <p>If they are two players both must survive! Because if your partner dies you will commit suicide, so ...</p>
+      <p>Each level increases by 15 seconds the time you have to survive</p>
+      <h3>Good Luck!!!</h3>
+      </div>
+  </div>
+</div>
+</body>
+</html>

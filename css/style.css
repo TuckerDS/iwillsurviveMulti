@@ -1,0 +1,169 @@
+@font-face {
+  font-family: VT220;
+  font-style: normal;
+  src: url("fonts/Glass_TTY_VT220.ttf");
+}
+
+body {
+  font-family: 'VT220', sans-serif;
+  color:red;
+  background-color: black;
+  background-image: url('images/BG.gif');
+  background-repeat: repeat;
+}
+
+#board {
+  position: relative;
+  border-radius: 3px;
+  border: 2px solid #101010;
+  background-image: url('images/FLOOR.gif');
+  background-repeat: repeat;
+  width: 960px;
+  height: 640px;
+  margin:auto;
+  box-shadow: 10px 10px 5px #110101;
+  border-top: 4px solid #101010;
+}
+
+.tile {
+  display:inline-block;
+  float:left;
+  position: relative;
+  width: 32px;
+  height: 32px;
+}
+
+.empty {
+  background-image: url('images/FLOOR.gif');
+  background-size: 100%;
+}
+.wall {
+  background-image: url('images/WALL.gif');
+  background-size: 100%;
+}
+
+.zombie {
+  z-index: 20;
+  position: absolute;
+  width: 32px;
+  height: 32px;
+}
+
+.zombie-left  { background-image: url('images/ZW.gif'); }
+.zombie-right { background-image: url('images/ZE.gif'); }
+.zombie-up    { background-image: url('images/ZN.gif'); }
+.zombie-down  { background-image: url('images/ZS.gif'); }
+
+.player {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+}
+
+#player1{z-index: 50;}
+#player2{z-index: 51;}
+
+.player1-left  { background-image: url('images/P1W.gif'); }
+.player1-right { background-image: url('images/P1E.gif'); }
+.player1-up    { background-image: url('images/P1N.gif'); }
+.player1-down  { background-image: url('images/P1S.gif'); }
+
+.player2-left  { background-image: url('images/P2W.png'); }
+.player2-right { background-image: url('images/P2E.png'); }
+.player2-up    { background-image: url('images/P2N.png'); }
+.player2-down  { background-image: url('images/P2S.png'); }
+
+.content {
+  position:relative;
+  text-align: center;
+}
+
+#nPlayers {
+  padding: 4px;
+  margin:4px;
+  font-size: 18px;
+  text-align: center;
+  color: #101010;
+  background-color: rgba(255,0,0,0.5);
+  border-radius: 5px;
+  text-shadow: 0px 0px 0px #101010;
+}
+
+button {
+  padding: 4px;
+  margin:4px;
+  font-size: 18px;
+  border-radius: 5px;
+  color: black;
+  background-color: red;
+  border: 2px solid black;
+  font-family: 'VT220', sans-serif;
+}
+
+button:hover {
+  background-color: black;
+  color:red;
+}
+
+option {
+  background-color: transparent;
+  font-family: 'VT220', sans-serif;
+}
+
+select {
+  font-size: 18px;
+  background-color: red;
+  border: 2px solid black;
+  border-radius: 5px;
+  font-family: 'VT220', sans-serif;
+}
+
+header {
+  box-sizing: border-box;
+  width: 960px;
+  padding: 10px;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 36px;
+  text-align: center;
+  box-shadow: 10px 10px 0px #101010;
+  background-color: rgba(30,30,30,0.8);
+  border-radius: 10px 10px 0px 0px;
+  border: 2px solid black;
+  text-shadow: 3px 3px 0px #101010;
+}
+
+select button {
+  border-radius: 5px;
+  border: 2px solid red;
+  font-family: 'VT220', sans-serif;
+}
+
+#instructions{
+  background-color: rgba(33,33,33, 0.8);
+  text-align: left;
+  padding: 20px 100px;
+  font-size: 20px;
+  text-shadow: 3px 3px 0px #101010;
+}
+
+#message {
+  padding:30px;
+  margin: 300px 400px;
+  z-index: 100;
+  width: 30%;
+  height: 10%;
+  position: absolute;
+  background-color: rgba(33,33,33,0.8);;
+  border-radius: 20px;
+  border: 2px solid black;
+  box-shadow: 5px 5px 2px #110101;
+  text-align: center;
+  font-size: 48px;
+  text-shadow: 3px 3px 0px #101010;
+}
+
+.hide {
+  visibility: hidden;
+}
