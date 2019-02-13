@@ -1,10 +1,11 @@
-var Player = function(top, left, playerNumber){
+var Player = module.exports = function(top, left, playerNumber, game){
   this.top = top;   // || 11;
   this.left = left; // || 15;
   this.direction = "S";
   this.size = 0;
   this.symbol = 0;
   this.playerNumber = playerNumber;
+  this.game = game;
 };
 
 Player.prototype.moveForward = function() {
@@ -37,7 +38,8 @@ Player.prototype.moveRight = function() {
 };
 
 Player.prototype.move = function(moveOption) {
-  if (document.getElementById("start").innerHTML == "Stop"){
+  var self = this;
+  //if (document.getElementById("start").innerHTML == "Stop"){
     preCoordY = this.top;
     preCoordX = this.left;
     preDirection = this.direction;
@@ -53,14 +55,13 @@ Player.prototype.move = function(moveOption) {
     if (this.top == preCoordY && this.left == preCoordX) {
       this.render(preCoordY, preCoordX, preDirection);
     } else {
-      var tile = game.board.getItemAtPosition(this.top, this.left);
+      var tile = self.game.board.getItemAtPosition(this.top, this.left);
       switch (tile) {
         case "*":
         case this.playerNumber:
-          this.playSound("walk");
             // Clean previous position
-          game.board.map[preCoordY][preCoordX] = "*";
-          game.board.map[this.top][this.left] = this.playerNumber;
+          self.game.board.map[preCoordY][preCoordX] = "*";
+          self.game.board.map[this.top][this.left] = this.playerNumber;
             // Render
           this.render(preCoordY, preCoordX, preDirection);
             // Update paths
@@ -69,7 +70,7 @@ Player.prototype.move = function(moveOption) {
           break;
         case "Z":
             // Death
-          game.stopGame("DEAD");
+          self.game.stopGame("DEAD");
           break;
         default:
             //Stay
@@ -78,18 +79,19 @@ Player.prototype.move = function(moveOption) {
           this.direction = preDirection;
       }
     }
-  }
+
 };
 
 Player.prototype.render = function(preCoordY, preCoordX, preDirection){
   var top;
   var left;
-  var that = this;
+  var self = this;
   var classDirection;
   var classPreDirection;
+  var options = {};
 
   if (this.playerNumber===0) {
-    switch (that.direction) {
+    switch (self.direction) {
       case "N": classDirection = 'player1-up'; break;
       case "S": classDirection = 'player1-down'; break;
       case "E": classDirection = 'player1-right'; break;
@@ -102,7 +104,7 @@ Player.prototype.render = function(preCoordY, preCoordX, preDirection){
       case "W": classPreDirection = 'player1-left'; break;
     }
   } else {
-    switch (that.direction) {
+    switch (self.direction) {
       case "N": classDirection = 'player2-up'; break;
       case "S": classDirection = 'player2-down'; break;
       case "E": classDirection = 'player2-right'; break;
@@ -116,20 +118,15 @@ Player.prototype.render = function(preCoordY, preCoordX, preDirection){
     }
   }
 
-  if (this.playerNumber === 0) {
-    $("#player1").removeClass(classPreDirection).addClass(classDirection);
-    $("#player1").animate({left: this.left*game.board.tileSize, top:this.top*game.board.tileSize}, 50);
-  } else {
-    $("#player2").removeClass(classPreDirection).addClass(classDirection);
-    $("#player2").animate({left: this.left*game.board.tileSize, top:this.top*game.board.tileSize}, 50);
-  }
-  console.log(game.board.map.toString());
+  options.playerNumber = this.playerNumber;
+  options.preDirection = classPreDirection;
+  options.direction = classDirection;
+  options.top = this.top;
+  options.left = this.left;
+
+  self.game.renderPlayer(options);
 };
 
-Player.prototype.playSound = function(sound) {
-  var audio = document.getElementById(sound);
-  if (audio.paused) audio.play();
-};
 
 // No usefull functions at this stage
 // Player.prototype.shoot = function(){};

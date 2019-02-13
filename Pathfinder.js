@@ -1,4 +1,8 @@
-var Path = function(startArray, endArray, board){
+
+var AstarModule = require('./astar.js');
+var Path = module.exports = function(startArray, endArray, board){
+  var astarModule = new AstarModule();
+  var astar = astarModule.astar;
 
   this.result = [];
   this.times = 0;
@@ -14,8 +18,8 @@ var Path = function(startArray, endArray, board){
       }
     }
   }
-  
-  var graph = new Graph(grid, false),
+
+  var graph = new astarModule.Graph(grid, false),
   start = graph.grid[startArray[0]][startArray[1]],
   end = graph.grid[endArray[0]][endArray[1]],
   results = [],

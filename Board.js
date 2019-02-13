@@ -1,4 +1,4 @@
-var Board = function(rows, cols, tileSize, game){
+var Board = module.exports = function(rows, cols, tileSize, game){
   this.height = (rows-1)*tileSize;
   this.width = (cols-1)*tileSize;
   this.rows = rows;
@@ -12,7 +12,8 @@ var Board = function(rows, cols, tileSize, game){
 };
 
 Board.prototype.init = function(){
-  this.render();
+  var self = this;
+  self.game.renderBoard(self);
 };
 
 Board.prototype.render = function(){
@@ -35,13 +36,13 @@ Board.prototype.render = function(){
 };
 
 Board.prototype.validMovement = function(y,x){
-  var that = this;
-  return ((((x>=0) && (x<that.cols)) && ((y>=0) && (y<that.rows))) && (that.map[y][x] === "*")) ? true : false;
+  var self = this;
+  return ((((x>=0) && (x<self.cols)) && ((y>=0) && (y<self.rows))) && (self.map[y][x] === "*")) ? true : false;
 };
 
 Board.prototype.getItemAtPosition = function(y,x){
-  var that = this;
-  return this.validMovement(y,x) ? that.map[y][x] : "OUTERLIMITS";
+  var self = this;
+  return self.validMovement(y,x) ? self.map[y][x] : "OUTERLIMITS";
 };
 
 // No usefull functions for now

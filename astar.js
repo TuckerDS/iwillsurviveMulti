@@ -4,18 +4,7 @@
 // Implements the astar search algorithm in javascript using a Binary Heap.
 // Includes Binary Heap (with modifications) from Marijn Haverbeke.
 // http://eloquentjavascript.net/appendix2.html
-(function(definition) {
-  /* global module, define */
-  if (typeof module === 'object' && typeof module.exports === 'object') {
-    module.exports = definition();
-  } else if (typeof define === 'function' && define.amd) {
-    define([], definition);
-  } else {
-    var exports = definition();
-    window.astar = exports.astar;
-    window.Graph = exports.Graph;
-  }
-})(function() {
+var AstarModule = module.exports = function() {
 
 function pathTo(node) {
   var curr = node;
@@ -154,7 +143,7 @@ var astar = {
  * @param {Object} [options]
  * @param {bool} [options.diagonal] Specifies whether diagonal moves are allowed
  */
-function Graph(gridIn, options) {
+var Graph = module.exports = function (gridIn, options) {
   options = options || {};
   this.nodes = [];
   this.diagonal = !!options.diagonal;
@@ -401,4 +390,4 @@ return {
   Graph: Graph
 };
 
-});
+};
