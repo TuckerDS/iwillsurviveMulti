@@ -78,12 +78,12 @@ var Server = function () {
 
     console.log(this.serverPort);
 
-    this.server.listen(this.serverPort, '127.0.0.1', function () {
+    this.server.listen(this.serverPort, '0.0.0.0', function () {
         console.log('Server is listening on port ' + self.serverPort);
     });
 
     this.io = require('socket.io').listen(this.server);
-    this.io.sockets.on('connection', function(socket){
+    this.io.on('connection', function(socket){
       self.setSocket(socket);
     });
 
@@ -119,7 +119,7 @@ Server.prototype.setSocket = function(socket){
           self.act(socket.playerId);
       }
       //socket.broadcast.volatile.emit('sight', {id: socket.playerId, x: sight.x, y: sight.y, lastPress: sight.lastPress});
-      self.io.sockets.emit('sight', {id: socket.playerId, x: sight.x, y: sight.y, lastPress: sight.lastPress});
+      socket.broadcast.emit('sight', {id: socket.playerId, x: sight.x, y: sight.y, lastPress: sight.lastPress});
   });
 
   socket.on('clickStart', function(options){

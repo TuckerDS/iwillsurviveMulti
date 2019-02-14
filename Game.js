@@ -19,8 +19,10 @@ var Game = module.exports = function(board, server){
   this.nPlayers = server.nPlayers;
   this.server = server;
   this.moveStack = [];
-  this.zombieRenderInterval = 33;
-  this.zombieRenderTimeID = null;
+  // this.zombieRenderInterval = 33;
+  // this.zombieRenderTimeID = null;
+  this.renderInterval = 1000 / 60;
+  this.renderTimeID = null;
 };
 
 Game.prototype.insertZombie = function (zombie) {
@@ -99,13 +101,25 @@ Game.prototype.startGameTime = function(){
     if (self.board.map[1][1]=="*") {
       self.insertZombie(new ZombieModule(1,1, self));
     }
+
+    // self.server.emitEvent('renderZombies', {'zombies': self.moveStack});
+    // self.moveStack = [];
+
     self.updatePaths();
   },self.zombieGenerationInterval);
 
-  self.zombieTimer = setInterval(function(){
-    self.server.emitEvent('renderZombies', {'zombies': self.moveStack});
+  // self.zombieRenderTimeID = setInterval(function () {
+  //   self.server.emitEvent('renderZombies ', {'zombies': self.moveStack});
+  //   self.moveStack = [];
+  // }, self.zombieRenderInterval);
+
+  self.renderTimeID = setInterval(function () {
+    self.server.emitEvent('renderUpdate', {
+      date: Date.now(),
+      moves: self.moveStack
+    });
     self.moveStack = [];
-  }, self.zombieRenderInterval);
+  }, self.renderInterval);
 };
 
 Game.prototype.resetTimer = function(){
@@ -115,16 +129,17 @@ Game.prototype.resetTimer = function(){
   this.gameTimer = setInterval(function(){
     that.setGameTimer(gameTime/1000);
     gameTime -= timerSpeed;
-
   }, timerSpeed);
 };
 
 Game.prototype.stopGame = function(gameDeadType){
+  console.log('gameDeadType', gameDeadType)
   var self = this;
   clearInterval(self.zombieTimer);
   clearInterval(self.zombieRenderTimeID);
   clearInterval(self.gameTimer);
   clearInterval(self.gameOverTimer);
+  clearInterval(self.renderTimeID);
 
   //Stop zombies intervals
   for (i=0; i < self.zombies.length; i++) {
@@ -163,7 +178,9 @@ Game.prototype.renderPlayer = function(options){
   var self = this;
   options.top = options.top * this.board.tileSize;
   options.left = options.left *this.board.tileSize;
-  self.server.emitEvent('renderPlayer', options);
+
+  self.moveStack.push(options);
+  //self.server.emitEvent('renderPlayer', options);
 };
 
 Game.prototype.renderZombie = function(zombie, direction){
@@ -171,6 +188,7 @@ Game.prototype.renderZombie = function(zombie, direction){
   var positionTop = zombie.top*this.board.tileSize;
   var positionLeft = zombie.left*this.board.tileSize;
   var options = {
+    'type': 'zombie',
     'zombieID':zombie.zombieID,
     'preDirection': zombie.direction,
     'direction': direction,

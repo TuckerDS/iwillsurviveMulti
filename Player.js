@@ -118,6 +118,7 @@ Player.prototype.render = function(preCoordY, preCoordX, preDirection){
     }
   }
 
+  options.type = 'player';
   options.playerNumber = this.playerNumber;
   options.preDirection = classPreDirection;
   options.direction = classDirection;

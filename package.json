@@ -1,5 +1,5 @@
 {
-  "name": "I will Survive Multiplayer",
+  "name": "IwillSurviveMultiplayer",
   "version": "1.0.0",
   "dependencies": {
     "socket.io": "^2.0.4"

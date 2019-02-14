@@ -3,9 +3,10 @@ var game;
 var level = {'id': 0, 'gametime': 30000, 'level': levels[0]};
 var socket;
 var me;
+var playerAmimationTime = 1000 / 60
 
 $(document).ready(function() {
-  socket = io.connect('http://localhost:5000');
+  socket = io('192.168.0.13:5000');
 
   enableSockets();
   enableInputs();
@@ -46,12 +47,19 @@ $(document).ready(function() {
       for (i=0; i< options.zombies.length;i++){
         renderZombie(options.zombies[i]);
       }
-
     });
 
     socket.on('renderPlayer', function (options) {
       console.log('Render Player', options);
       renderPlayer(options);
+    });
+
+     socket.on('renderUpdate', function (options) {
+      console.log('Render Update', options, "Time", Date.now() - options.date);
+      for (i = 0; i < options.moves.length; i++) {
+        if (options.moves[i].type == 'player') renderPlayer(options.moves[i]);
+        else renderZombie(options.moves[i]);
+      }
     });
 
     socket.on('renderBoard', function (options) {
@@ -181,7 +189,7 @@ $(document).ready(function() {
       zombieElement.removeClass(options.preDirection).addClass(options.direction);
     }
 
-    zombieElement.animate({left: options.left, top:options.top}, 300);
+    zombieElement.animate({left: options.left, top:options.top}, 200);
   }
 
   function renderPlayer (options){
@@ -189,10 +197,10 @@ $(document).ready(function() {
     var playerNumber = options.playerNumber;
     if (playerNumber === 0) {
       $("#player1").removeClass(options.preDirection).addClass(options.direction);
-      $("#player1").animate({'left': options.left, 'top':options.top}, 50);
+      $("#player1").animate({'left': options.left, 'top':options.top}, playerAmimationTime);
     } else {
       $("#player2").removeClass(options.preDirection).addClass(options.direction);
-      $("#player2").animate({'left': options.left, 'top':options.top}, 50);
+      $("#player2").animate({'left': options.left, 'top':options.top}, playerAmimationTime);
     }
     //console.log(self.board.map.toString());
     playSound("walk");
