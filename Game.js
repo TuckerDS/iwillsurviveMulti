@@ -81,7 +81,6 @@ Game.prototype.updatePaths = function(){
 
 Game.prototype.startGameTime = function(){
   var self = this;
-  var count = 0;
 
   self.server.emitEvent('stopSound', {'value': 'ace'});
   self.server.emitEvent('playSound', {'value': 'iwillsurvive'});
@@ -98,20 +97,9 @@ Game.prototype.startGameTime = function(){
   self.resetTimer();
 
   self.zombieTimer = setInterval(function(){
-    if (self.board.map[1][1]=="*") {
-      self.insertZombie(new ZombieModule(1,1, self));
-    }
-
-    // self.server.emitEvent('renderZombies', {'zombies': self.moveStack});
-    // self.moveStack = [];
-
+    if (self.board.map[1][1]=="*") self.insertZombie(new ZombieModule(1,1, self));
     self.updatePaths();
   },self.zombieGenerationInterval);
-
-  // self.zombieRenderTimeID = setInterval(function () {
-  //   self.server.emitEvent('renderZombies ', {'zombies': self.moveStack});
-  //   self.moveStack = [];
-  // }, self.zombieRenderInterval);
 
   self.renderTimeID = setInterval(function () {
     self.server.emitEvent('renderUpdate', {
@@ -180,7 +168,6 @@ Game.prototype.renderPlayer = function(options){
   options.left = options.left *this.board.tileSize;
 
   self.moveStack.push(options);
-  //self.server.emitEvent('renderPlayer', options);
 };
 
 Game.prototype.renderZombie = function(zombie, direction){
@@ -195,11 +182,8 @@ Game.prototype.renderZombie = function(zombie, direction){
     'top': positionTop,
     'left': positionLeft
   };
-  //self.server.emitEvent('renderZombie', options);
   zombie.direction = direction;
-
   self.moveStack.push(options);
-
 };
 
 Game.prototype.renderBoard = function(board){

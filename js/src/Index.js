@@ -28,25 +28,15 @@ $(document).ready(function() {
         //     players[sight.id].y = sight.y;
         // }
     });
+
     socket.on('clickStart', function (options) {
       console.log('RECIBIENDO START');
       clickStart(options);
     });
+    
     socket.on('keypress', function (sight) {
       console.log('RECIBIENDO tecla', sight);
       keyupWindow(sight);
-    });
-
-    socket.on('renderZombie', function (options) {
-      console.log('Render Zombie', options);
-      renderZombie(options);
-    });
-
-    socket.on('renderZombies', function (options) {
-      console.log('Render Zombie', options);
-      for (i=0; i< options.zombies.length;i++){
-        renderZombie(options.zombies[i]);
-      }
     });
 
     socket.on('renderPlayer', function (options) {
@@ -54,7 +44,7 @@ $(document).ready(function() {
       renderPlayer(options);
     });
 
-     socket.on('renderUpdate', function (options) {
+    socket.on('renderUpdate', function (options) {
       console.log('Render Update', options, "Time", Date.now() - options.date);
       for (i = 0; i < options.moves.length; i++) {
         if (options.moves[i].type == 'player') renderPlayer(options.moves[i]);
@@ -71,10 +61,12 @@ $(document).ready(function() {
       console.log('Render Board', options);
       clickLevelSelector(options);
     });
+
     socket.on('cleanBoard', function (options) {
       console.log('clean Board', options);
       $("#board").empty();
     });
+
     socket.on('setGameTimer', function (options) {
       console.log('timer', options);
       $("#time").html(parseInt(options.value) + " SEC");
@@ -149,12 +141,10 @@ $(document).ready(function() {
   function keyupWindow(config) {
     switch (config.keyCode) {
       case 49: //Player1   keycode(77)=1
-        var element = $('#nPlayers');
-        element.html('1 PLAYER');
+        $('#nPlayers').html('1 PLAYER');
         break;
       case 50: //Player2   keycode(77)=2
-        var element = $('#nPlayers');
-        element.html('2 PLAYERS');
+        $('#nPlayers').html('2 PLAYERS');
         break;
     }
   }

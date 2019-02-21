@@ -1,10 +1,7 @@
 
 /*global console, process, require */
 var GameModule = require('./Game.js');
-var ZombieModule = require('./Zombie.js');
 var BoardModule = require('./Board.js');
-var PathModule = require('./Pathfinder.js');
-var PlayerModule = require('./Player.js');
 
 var Server = function () {
     'use strict';
@@ -23,56 +20,6 @@ var Server = function () {
     this.nPlayers = 1;
     this.level = {};
     this.game = null;
-
-        // var TEST = require('./test.js');
-        // var s = new TEST.test();
-        // s.hola();
-
-        //var Zombie = new ZombieModule(1,1);
-
-    // function Circle(x, y, radius) {
-    //     this.x = (x === undefined) ? 0 : x;
-    //     this.y = (y === undefined) ? 0 : y;
-    //     this.radius = (radius === undefined) ? 0 : radius;
-    // }
-    //
-    // Circle.prototype = {
-    //     constructor: Circle,
-    //
-    //     distance: function (circle) {
-    //         if (circle !== undefined) {
-    //             var dx = this.x - circle.x,
-    //                 dy = this.y - circle.y;
-    //             return (Math.sqrt(dx * dx + dy * dy) - (this.radius + circle.radius));
-    //         }
-    //     }
-    // };
-    //
-    // function random(max) {
-    //     return ~~(Math.random() * max);
-    // }
-
-    // function act(player) {
-    //     var now = Date.now();
-    //     if (gameEnd - now < -1000) {
-    //         gameEnd = now + 10000;
-    //         io.sockets.emit('gameEnd', {time: gameEnd});
-    //         target.x = random(canvasWidth / 10 - 1) * 10 + target.radius;
-    //         target.y = random(canvasHeight / 10 - 1) * 10 + target.radius;
-    //         io.sockets.emit('target', {x: target.x, y: target.y});
-    //     } else if (gameEnd - now > 0) {
-    //         if (players[player].distance(target) < 0) {
-    //             io.sockets.emit('score', {id: player, score: 1});
-    //             target.x = random(canvasWidth / 10 - 1) * 10 + target.radius;
-    //             target.y = random(canvasHeight / 10 - 1) * 10 + target.radius;
-    //             io.sockets.emit('target', {x: target.x, y: target.y});
-    //         }
-    //     }
-    // }
-
-
-    // target = new Circle(100, 100, 10);
-
 
     this.server = require('http').createServer(this.MyServer);
 
@@ -152,8 +99,8 @@ Server.prototype.setSocket = function(socket){
 
 Server.prototype.emitEvent = function(event, options) {
   var self = this;
-
-  self.io.sockets.emit(event, options);
+  self.io.emit(event, options);
+  //self.io.sockets.emit(event, options);
 };
 
 
@@ -176,7 +123,7 @@ Server.prototype.keyPressHandler = function(options){
   var userMove;
   var player;
   console.log('options', options);
-  self.io.sockets.emit('keypress', options);
+  //self.io.sockets.emit('keypress', options);
   switch (options.keyCode) {
     case 38: //up     keycode(70)=F
       userMove="F"; player = 1;
