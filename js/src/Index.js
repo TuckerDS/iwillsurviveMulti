@@ -6,7 +6,7 @@ var me;
 var playerAmimationTime = 1000 / 60
 
 $(document).ready(function() {
-  socket = io('http://i-will-survive-multiplayer.herokuapp.com:5000');
+  socket = io('http://i-will-survive-multiplayer.herokuapp.com');
 
   enableSockets();
   enableInputs();
@@ -101,31 +101,38 @@ $(document).ready(function() {
   }
 
   function enableInputs() {
-       $(document).on('keyup', function (e) {
-         console.log('EMITIENDO tecla');
-           var config = {keyCode: e.keyCode};
-           if ('charCode' in e) config.charCode = e.charCode;
-           socket.emit('keypress', config);
-       });
+    $(document).on('keyup', function (e) {
+      console.log('EMITIENDO tecla');
+        var config = {keyCode: e.keyCode};
+        if ('charCode' in e) config.charCode = e.charCode;
+        socket.emit('keypress', config);
+    });
 
-       $('#levelSelector').change( function (e) {
-        var options = {};
-        options.selection = e.currentTarget.selectedIndex;
-        options.levelId = options.selection;
-        options.level = levels[options.levelId];
-        socket.emit('changeSelection', options);
-       });
+    $('#levelSelector').change( function (e) {
+    var options = {};
+    options.selection = e.currentTarget.selectedIndex;
+    options.levelId = options.selection;
+    options.level = levels[options.levelId];
+    socket.emit('changeSelection', options);
+    });
 
-       $('#start').on("click", function (e) {
-         console.log('EMITIENDO FIST CLICK');
-         var options = {};
-         if ($('#start').html() == "Start")
-           options = {'type': 'start', 'level':level};
-         else
-           options = {'type': 'stop'};
-         socket.emit('clickStart', options);
-       });
-   }
+    $('#start').on("click", function (e) {
+      console.log('EMITIENDO FIST CLICK');
+      var options = {};
+      if ($('#start').html() == "Start")
+        options = {'type': 'start', 'level':level};
+      else
+        options = {'type': 'stop'};
+      socket.emit('clickStart', options);
+    });
+
+    $('.button').on('click', function(e) {
+      var keyCode = [38,39,37,40][['U', 'R', 'L', 'D'].indexOf(e.currentTarget.textContent)]
+      console.log('keyCode', keyCode)
+      socket.emit('keypress', {keyCode:keyCode});
+    })
+
+  }
 
   function clickStart(options){
     console.log('options', options);

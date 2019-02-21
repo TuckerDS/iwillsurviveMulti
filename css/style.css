@@ -183,4 +183,6 @@ select button {
 .button {
   text-align: center;
   background-color: rgba(0,0,0,0.5);
+  padding: 14px 7px 0;
+  border-radius: 50%;
 }
