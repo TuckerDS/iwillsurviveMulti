@@ -6,7 +6,7 @@ var me;
 var playerAmimationTime = 1000 / 60
 
 $(document).ready(function() {
-  socket = io('192.168.0.13:5000');
+  socket = io('http://i-will-survive-multiplayer.herokuapp.com:5000');
 
   enableSockets();
   enableInputs();
@@ -33,7 +33,7 @@ $(document).ready(function() {
       console.log('RECIBIENDO START');
       clickStart(options);
     });
-    
+
     socket.on('keypress', function (sight) {
       console.log('RECIBIENDO tecla', sight);
       keyupWindow(sight);
